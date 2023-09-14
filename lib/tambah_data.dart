@@ -1,12 +1,11 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'dart:convert';
-import 'dart:io';
 
-import 'package:tugas_1/list_data.dart';
-import 'package:tugas_1/side_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:tugas_1/list_data.dart';
+import 'package:tugas_1/side_menu.dart';
 
 class TambahData extends StatefulWidget {
   const TambahData({Key? key}) : super(key: key);
@@ -20,11 +19,10 @@ class _TambahDataState extends State<TambahData> {
   final jurusanController = TextEditingController();
 
   Future postData(String nama, String jurusan) async {
-    // print(nama);
-    String url = Platform.isAndroid
-        ? 'http://10.100.0.144/api/index.php'
-        : 'http://localhost/api/index.php';
-    //String url = 'http://127.0.0.1/apiTrash/prosesLoginDriver.php';
+    // String url = Platform.isAndroid
+    //     ? 'http://10.100.0.144/api/index.php'
+    //     : 'http://localhost/api/index.php';
+    String url = "http://192.168.1.5/api_flutter/index.php";
     Map<String, String> headers = {'Content-Type': 'application/json'};
     String jsonBody = '{"nama": "$nama", "jurusan": "$jurusan"}';
     var response = await http.post(

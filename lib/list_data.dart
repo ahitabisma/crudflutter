@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
+
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:tugas_1/edit_data.dart';
 import 'package:tugas_1/read_data.dart';
 import 'package:tugas_1/side_menu.dart';
 import 'package:tugas_1/tambah_data.dart';
-import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 class ListData extends StatefulWidget {
   const ListData({super.key});
@@ -18,9 +18,10 @@ class ListData extends StatefulWidget {
 
 class _ListDataState extends State<ListData> {
   List<Map<String, String>> dataMahasiswa = [];
-  String url = Platform.isAndroid
-      ? 'http://10.100.0.144/api/index.php'
-      : 'http://localhost/api/index.php';
+  // String url = Platform.isAndroid
+  //     ? 'http://10.100.0.144/api/index.php'
+  //     : 'http://localhost/api/index.php';
+  String url = "http://192.168.1.5/api_flutter/index.php";
   @override
   void initState() {
     super.initState();
@@ -54,8 +55,6 @@ class _ListDataState extends State<ListData> {
     }
   }
 
-  Future readData(int id) async {}
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -88,9 +87,8 @@ class _ListDataState extends State<ListData> {
                     IconButton(
                       icon: const Icon(Icons.visibility),
                       onPressed: () {
-                        // lihatMahasiswa(aindex);
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => EditData(
+                            builder: (context) => ReadData(
                                 id: dataMahasiswa[index]['id'].toString(),
                                 nama: dataMahasiswa[index]['nama'] as String,
                                 jurusan: dataMahasiswa[index]['jurusan']
@@ -101,8 +99,9 @@ class _ListDataState extends State<ListData> {
                     IconButton(
                       icon: const Icon(Icons.edit),
                       onPressed: () {
+                        // lihatMahasiswa(aindex);
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => ReadData(
+                            builder: (context) => EditData(
                                 id: dataMahasiswa[index]['id'].toString(),
                                 nama: dataMahasiswa[index]['nama'] as String,
                                 jurusan: dataMahasiswa[index]['jurusan']

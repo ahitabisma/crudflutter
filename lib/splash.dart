@@ -1,8 +1,9 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'dart:async';
-import 'package:tugas_1/login_page.dart';
+
 import 'package:flutter/material.dart';
+import 'package:tugas_1/login_page.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -34,7 +35,7 @@ class _SplashScreenState extends State<SplashScreen> {
               height: 20,
             ),
             Text(
-              "Unsoed App",
+              "Flutter CRUD App",
               style: TextStyle(
                 fontSize: 18.0,
                 color: Colors.black,
@@ -42,7 +43,7 @@ class _SplashScreenState extends State<SplashScreen> {
               textAlign: TextAlign.center,
             ),
             Text(
-              "©Universitas Jenderal Soedirman",
+              "Nia, Hafez, Uus, Bisma",
               style: TextStyle(
                 fontSize: 14.0,
                 color: Colors.black,

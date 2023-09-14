@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:tugas_1/list_data.dart';
@@ -21,20 +19,23 @@ class _EditDataState extends State<EditData> {
   final namaController = TextEditingController();
   final jurusanController = TextEditingController();
 
-  Future<void> editData(String id) async {
-    String url = Platform.isAndroid
-        ? 'http://10.100.0.144/api/index.php'
-        : 'http://localhost/api/index.php';
+  Future<bool> editData(String id) async {
+    // String url = Platform.isAndroid
+    //     ? 'http://10.100.0.144/api/index.php'
+    //     : 'http://localhost/api/index.php';
+    String url = "http://192.168.1.5/api_flutter/index.php";
     Map<String, String> headers = {'Content-Type': 'application/json'};
     String jsonBody =
-        '{"id": ${widget.id},"nama": "${namaController.value}", "jurusan": "${jurusanController.value}", "}';
+        '{"id": "${widget.id}", "nama": "${namaController.text}", "jurusan": "${jurusanController.text}"}';
     var response =
         await http.put(Uri.parse(url), body: jsonBody, headers: headers);
     if (response.statusCode == 200) {
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => ListData()));
+      // Navigator.of(context)
+      //     .push(MaterialPageRoute(builder: (context) => const ListData()));
+      return true;
     } else {
       print('Error');
+      return false;
     }
   }
 
@@ -50,29 +51,54 @@ class _EditDataState extends State<EditData> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Edit Data'),
+        title: const Text('Edit Data'),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          TextField(
-            controller: namaController,
-            decoration: const InputDecoration(
-              hintText: 'Nama Mahasiswa',
+      body: Container(
+        padding: const EdgeInsets.all(10),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextField(
+              controller: namaController,
+              decoration: const InputDecoration(
+                hintText: 'Nama Mahasiswa',
+              ),
             ),
-          ),
-          TextField(
-            controller: jurusanController,
-            decoration: const InputDecoration(
-              hintText: 'Jurusan',
+            TextField(
+              controller: jurusanController,
+              decoration: const InputDecoration(
+                hintText: 'Jurusan',
+              ),
             ),
-          ),
-          ElevatedButton(
-              onPressed: () {
-                editData(widget.id);
+            ElevatedButton(
+              onPressed: () async {
+                await editData(widget.id)
+                    ? showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text("Success"),
+                            content: const Text("Data berhasil di edit."),
+                            actions: <Widget>[
+                              TextButton(
+                                child: const Text("OK"),
+                                onPressed: () {
+                                  Navigator.of(context)
+                                      .pop(); // Close the dialog
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => const ListData()));
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      )
+                    : false;
               },
-              child: Text("Edit")),
-        ],
+              child: const Text("Edit"),
+            ),
+          ],
+        ),
       ),
     );
   }
